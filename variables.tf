@@ -19,10 +19,6 @@ variable "terraform_state_region" {
   description = "AWS region used for Terraform states"
 }
 
-variable "private_subnets" {
-  type = list(string)
-}
-
 variable "instance_type" {}
 variable "root_volume_size" {}
 variable "volume_path" {}
@@ -52,7 +48,7 @@ variable "subnet_id" {}
 variable "instance_profile_id" {}
 
 variable "spot_price" {
-  default = 0
+  default = 5  // Set it way high and then less likely to hit.
   type = number
 }
 

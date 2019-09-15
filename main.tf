@@ -15,7 +15,8 @@ locals {
 
   tags = merge(var.tags, local.common_tags)
 
-  command_chomped = chomp(var.command)
+  command = format("aws ec2 wait spot-instance-request-fulfilled --spot-instance-request-ids %s && aws ec2 describe-spot-instance-requests --spot-instance-request-ids %s | jq -r '.SpotInstanceRequests[].InstanceId'", aws_spot_instance_request.this.*.id[0], aws_spot_instance_request.this.*.id[0])
+  command_chomped = chomp(local.command)
   command_when_destroy_chomped = chomp(var.command_when_destroy)
 }
 
@@ -120,7 +121,7 @@ resource "null_resource" "wait_on_startup" {
   provisioner "local-exec" {
     command = "sleep 20"
   }
-  depends_on = [null_resource.contents.triggers["stdout"]]
+  depends_on = [aws_spot_instance_request.this]
 }
 
 resource "null_resource" "start" {
@@ -161,6 +162,8 @@ resource "null_resource" "shell" {
     command = "rm \"${path.module}/exitstatus.${null_resource.start.id}\""
     on_failure = continue
   }
+
+  depends_on = [null_resource.wait_on_startup]
 }
 
 data "external" "stdout" {

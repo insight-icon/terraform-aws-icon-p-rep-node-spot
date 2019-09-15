@@ -3,6 +3,13 @@
 Terraform module to run a public representative node for the ICON Blockchain. Module is intended to be run via 
 Terragrunt, a Terraform wrapper.
 
+This is the spot version of [terraform-aws-icon-p-rep-node](https://github.com/robc-io/terraform-aws-icon-p-rep-node) 
+only to be used on TestNet. 
+
+### Sources 
+
+- [terraform-shell-resource](https://github.com/matti/terraform-shell-resource)
+    - Had issues with provider so copied code over manually 
 
 ### Components 
 

@@ -3,7 +3,22 @@ output "private_ip" {
 }
 
 output "instance_id" {
-  value = module.instance_id.stdout
+  value = chomp(null_resource.contents.triggers["stdout"])
+}
+
+output "stdout" {
+  value = chomp(null_resource.contents.triggers["stdout"])
+  #value = "${data.external.stdout.result["content"]}"
+}
+
+output "stderr" {
+  value = chomp(null_resource.contents.triggers["stderr"])
+  #value = "${data.external.stderr.result["content"]}"
+}
+
+output "exitstatus" {
+  value = chomp(null_resource.contents.triggers["exitstatus"])
+  #value = "${data.external.exitstatus.result["content"]}"
 }
 
 //output "ami_id" {
